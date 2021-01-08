@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 var books []Book
@@ -55,5 +56,6 @@ func main() {
 	r.HandleFunc(path+"/", getBooks).Methods("GET")
 	r.HandleFunc(path+"/{id}", getBook).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	handler := cors.Default().Handler(r)
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
